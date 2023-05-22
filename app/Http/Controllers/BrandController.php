@@ -11,4 +11,9 @@ class BrandController extends BaseController
     {
         return view('brand.index');
     }
+
+    public function create()
+    {
+        
+    }
 }
