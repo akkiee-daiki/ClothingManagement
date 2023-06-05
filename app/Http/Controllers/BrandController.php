@@ -7,16 +7,18 @@ use Illuminate\Http\Request;
 
 class BrandController extends BaseController
 {
+    protected string $SESS_KEY;
 
-    public function __construct(string $SESS_KEY)
+    public function __construct()
     {
-        parent::__construct($SESS_KEY);
+        parent::__construct();
     }
 
     public function index()
     {
         return view('brand.index');
     }
+
     public function create()
     {
         return view('brand.create');
@@ -26,9 +28,8 @@ class BrandController extends BaseController
     {
         return view('brand.confirm');
     }
+
     public function store()
-
-
     {
         return view('brand.store');
     }

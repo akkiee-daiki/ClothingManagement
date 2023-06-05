@@ -6,10 +6,9 @@ use Illuminate\Http\Request;
 
 class BaseController extends Controller
 {
-    protected string $SESS_KEY;
 
-    public function __construct(string $SESS_KEY)
+    public function __construct()
     {
-        $SESS_KEY = implode('_', preg_split('/\\\\/', get_class($this)));
+        $this->SESS_KEY = implode('_', preg_split('/\\\\/', get_class($this)));
     }
 }
