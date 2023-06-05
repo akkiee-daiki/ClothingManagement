@@ -17,9 +17,36 @@ class BrandController extends BaseController
     {
         return view('brand.index');
     }
-
     public function create()
     {
-
+        return view('brand.create');
     }
+
+    public function create_confirm()
+    {
+        return view('brand.confirm');
+    }
+    public function store()
+
+
+    {
+        return view('brand.store');
+    }
+
+    public function edit()
+    {
+        return view('brand.create');
+    }
+
+    public function edit_confirm()
+    {
+        return view('brand.create_confirm');
+    }
+
+    public function update()
+    {
+        return view('brand.update');
+    }
+
+
 }
