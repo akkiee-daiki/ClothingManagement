@@ -2,36 +2,59 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\BaseController;
+use App\Services\BrandService;
 use Illuminate\Http\Request;
+use App\Http\Requests\BrandRequest;
 
 class BrandController extends BaseController
 {
     protected string $SESS_KEY;
 
-    public function __construct()
+    public function __construct(private BrandService $brandService)
     {
         parent::__construct();
     }
 
     public function index()
     {
+        session()->forget($this->SESS_KEY . '.input');
+
         return view('brand.index');
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return view('brand.create');
+        $input = session($this->SESS_KEY . '.input') ?? [];
+        return view('brand.create')->with([
+            'input' => $input
+        ]);
     }
 
-    public function create_confirm()
+    public function create_confirm(BrandRequest $request)
     {
-        return view('brand.confirm');
+        $input = $request->only(['name']);
+
+        session()->put($this->SESS_KEY . '.input', $input);
+
+        return view('brand.confirm')->with([
+            'input' => $input
+        ]);
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        return view('brand.store');
+        // 二重登録禁止
+        $input = session($this->SESS_KEY . '.input');
+
+        // DB登録
+        if (!$this->brandService->insertRow($input)) {
+            abort(500);
+        }
+
+        session()->flash('message', '登録が完了しました。');
+        session()->forget($this->SESS_KEY . '.input');
+
+        return redirect()->route('brand.index');
     }
 
     public function edit()
