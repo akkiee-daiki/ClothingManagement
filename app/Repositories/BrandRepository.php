@@ -7,6 +7,15 @@ use Illuminate\Support\Facades\DB;
 
 class BrandRepository
 {
+    public function getList($input) {
+        return DB::table('brand')
+            ->select([
+           'brand_id',
+           'name'
+            ])
+            ->get();
+    }
+
     /**
      * 新規登録
      * @param array $input

@@ -10,6 +10,10 @@ class BrandService
     {
     }
 
+    public function getList($input) {
+        return $this->brandRepository->getList($input);
+    }
+
     public function insertRow($input) {
         return $this->brandRepository->insertRow($input);
     }
