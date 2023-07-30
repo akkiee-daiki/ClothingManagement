@@ -7,6 +7,13 @@ use Illuminate\Support\Facades\DB;
 
 class BrandRepository
 {
+
+    /**
+     * 一覧取得
+     *
+     * @param array $input
+     * @return \Illuminate\Support\Collection
+     */
     public function getList($input) {
         return DB::table('brand')
             ->select([
@@ -18,6 +25,7 @@ class BrandRepository
 
     /**
      * 新規登録
+     *
      * @param array $input
      * @return bool
      */

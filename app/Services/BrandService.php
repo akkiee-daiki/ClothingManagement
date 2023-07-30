@@ -10,10 +10,22 @@ class BrandService
     {
     }
 
+    /**
+     * 一覧取得
+     *
+     * @param array $input
+     * @return \Illuminate\Support\Collection
+     */
     public function getList($input) {
         return $this->brandRepository->getList($input);
     }
 
+    /**
+     * レコード作成
+     *
+     * @param array $input
+     * @return bool
+     */
     public function insertRow($input) {
         return $this->brandRepository->insertRow($input);
     }
