@@ -1,20 +1,23 @@
 @extends('../layouts/app')
 
+@section('title', 'ブランド作成')
+
 @section('main')
     <section id="new">
-        <h2>新規作成</h2>
-        <form action="{{ route('brand.create_confirm') }}" method="post" id="js-createForm">
-            @csrf
+        <h2>{{ (session()->has($SESS_KEY . '.new')) ? '新規作成' : '編集' }}</h2>
+        <form action="" method="post" id="js-createForm">
             <dl>
                 <dt>ブランド名</dt>
                 <dd>
-                    <input type="text" name="name" value="{{ old('name', $input['name'] ?? '') }}">
+                    @csrf
+                    <input type="text" name="name" value="{{ old('name', $input['name'] ?? '')}}">
                     @error('name')
                         <p>{{ $message }}</p>
                     @enderror
                 </dd>
                 <dt></dt>
                 <dd>
+                    <button type="button" id="js-backBtn">戻る</button>
                     <button type="button" id="js-confirmBtn">確認</button>
                 </dd>
             </dl>
@@ -27,9 +30,15 @@
     <script>
         let form = document.getElementById('js-createForm')
         let confirmBtn = document.getElementById('js-confirmBtn');
+        let backBtn = document.getElementById('js-backBtn');
 
         confirmBtn.addEventListener('click', function () {
-           form.submit();
+            form.action = '{{ (session()->has($SESS_KEY . '.new')) ? route('brand.create_confirm') : route( 'brand.edit_confirm', ['brand_id' => $brand_id]) }}';
+            form.submit();
+        });
+
+        backBtn.addEventListener('click', function () {
+           window.location.href = '{{ route('brand.index') }}';
         });
     </script>
 @endsection

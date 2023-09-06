@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>衣類管理</title>
+    <title>@yield('title', '') | 衣類管理</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="keywords" content="">
@@ -19,7 +19,7 @@
 
     <nav id="menubar">
         <ul>
-            <li><a href="index.html">brand</a></li>
+            <li><a href="{{ route('brand.index') }}">brand</a></li>
             <li><a href="about.html">Clothes</a></li>
             <li><a href="gallery.html">span</a></li>
             <li><a href="link.html">history</a></li>
