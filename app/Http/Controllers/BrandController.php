@@ -23,14 +23,14 @@ class BrandController extends BaseController
     public function index()
     {
         session()->forget($this->SESS_KEY . '.input');
+        session()->forget($this->SESS_KEY . '.new');
 
         $input = [];
 
         $list = $this->brandService->getList($input);
-        var_dump($list);
 
         return view('brand.index')->with([
-            'list' => $list
+            'list' => $list,
         ]);
     }
 
@@ -43,8 +43,12 @@ class BrandController extends BaseController
     public function create(Request $request)
     {
         $input = session($this->SESS_KEY . '.input') ?? [];
+
+        session()->put($this->SESS_KEY . '.new', 'new');
+
         return view('brand.create')->with([
-            'input' => $input
+            'input' => $input,
+            "SESS_KEY" => $this->SESS_KEY
         ]);
     }
 
@@ -61,7 +65,8 @@ class BrandController extends BaseController
         session()->put($this->SESS_KEY . '.input', $input);
 
         return view('brand.confirm')->with([
-            'input' => $input
+            'input' => $input,
+            "SESS_KEY" => $this->SESS_KEY
         ]);
     }
 
@@ -73,7 +78,8 @@ class BrandController extends BaseController
      */
     public function store(Request $request)
     {
-        // 二重登録禁止
+        $request->session()->regenerateToken();
+
         $input = session($this->SESS_KEY . '.input');
 
         // DB登録
@@ -83,6 +89,7 @@ class BrandController extends BaseController
 
         session()->flash('message', '登録が完了しました。');
         session()->forget($this->SESS_KEY . '.input');
+        session()->forget($this->SESS_KEY . '.new');
 
         return redirect()->route('brand.index');
     }
@@ -90,32 +97,65 @@ class BrandController extends BaseController
     /**
      * 編集入力
      *
+     * @param string $brand_id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit()
+    public function edit($brand_id)
     {
-        return view('brand.create');
+        $record = $this->brandService->getRecord($brand_id);
+        $input = [
+          'brand_id' => $brand_id,
+          'name' => $record->name
+        ];
+
+        return view('brand.create', ['brand_id' => $brand_id])->with([
+            'SESS_KEY' => $this->SESS_KEY,
+            'brand_id' => $brand_id,
+            'input' => $input
+        ]);
     }
 
     /**
      * 編集確認
      *
+     * @param string $brand_id
+     * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit_confirm()
+    public function edit_confirm(string $brand_id, Request $request)
     {
-        return view('brand.create_confirm');
+        $input = $request->only(['name']);
+
+        session()->put($this->SESS_KEY . '.input', $input);
+
+        return view('brand.confirm')->with([
+            'SESS_KEY' => $this->SESS_KEY,
+            'brand_id' => $brand_id,
+            'input' => $input,
+            'SESS_KEY' => $this->SESS_KEY
+        ]);
     }
 
     /**
      * 更新
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @param string $brand_id
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update()
+    public function update(string $brand_id, Request $request)
     {
-        return view('brand.update');
-    }
+        $request->session()->regenerateToken();
 
+        $input = session($this->SESS_KEY . '.input');
+
+        if (!$this->brandService->updateRow($brand_id, $input)) {
+            abort(500);
+        }
+
+        session()->flash('message', '更新が完了しました。');
+
+        return redirect()->route('brand.index');
+    }
 
 }
