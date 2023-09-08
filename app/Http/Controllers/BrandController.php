@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\BrandService;
 use Illuminate\Http\Request;
 use App\Http\Requests\BrandRequest;
+use Illuminate\Support\Facades\Validator;
 
 class BrandController extends BaseController
 {
@@ -55,12 +56,22 @@ class BrandController extends BaseController
     /**
      * 新規作成確認
      *
-     * @param BrandRequest $request
+     * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function create_confirm(BrandRequest $request)
+    public function create_confirm(Request $request)
     {
         $input = $request->only(['name']);
+        $input['new'] = 'new';
+
+        $brandtReq = new BrandRequest();
+        $validator = Validator::make($input, $brandtReq->rules($input), $brandtReq->messages(), $brandtReq->attributes());
+        if ($validator->fails()) {
+            return redirect()
+                ->route('brand.create')
+                ->withErrors($validator)
+                ->withInput($input);
+        }
 
         session()->put($this->SESS_KEY . '.input', $input);
 
@@ -125,6 +136,16 @@ class BrandController extends BaseController
     public function edit_confirm(string $brand_id, Request $request)
     {
         $input = $request->only(['name']);
+        $input['brand_id'] = $brand_id;
+
+        $brandtReq = new BrandRequest();
+        $validator = Validator::make($input, $brandtReq->rules($input), $brandtReq->messages(), $brandtReq->attributes());
+        if ($validator->fails()) {
+            return redirect()
+                ->route('brand.create')
+                ->withErrors($validator)
+                ->withInput($input);
+        }
 
         session()->put($this->SESS_KEY . '.input', $input);
 
