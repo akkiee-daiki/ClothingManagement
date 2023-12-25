@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password', 20)->comment('パスワード');
             $table->rememberToken()->comment('トークン');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->comment('ユーザマスタ');
         });

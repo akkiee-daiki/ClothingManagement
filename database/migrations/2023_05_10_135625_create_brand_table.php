@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::create('brand', function (Blueprint $table) {
             $table->id('brand_id')->comment('ブランドID');
             $table->string('name', 255)->unique()->comment('名前');
+            $table->string('Japanese_name', 255)->nullable()->comment('日本語名');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->comment('ブランドマスタ');
         });
