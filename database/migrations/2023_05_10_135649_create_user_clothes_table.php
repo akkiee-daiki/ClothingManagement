@@ -13,14 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_clothing', function (Blueprint $table) {
-            $table->unsignedBigInteger('clothing_id')->comment('衣類ID');
+        Schema::create('user_clothes', function (Blueprint $table) {
+            $table->id('user_clothes_id')->comment('ユーザ衣類ID');
+            $table->unsignedBigInteger('clothes_id')->comment('衣類ID');
             $table->unsignedBigInteger('user_id')->comment('ユーザID');
             $table->timestamp('purchase_date')->comment('購入日時');
             $table->timestamp('throw_date')->nullable()->default(null)->comment('廃棄日時');
             $table->timestamps();
+            $table->softDeletes();
 
-            $table->foreign('clothing_id')->references('clothing_id')->on('clothing');
+            $table->foreign('clothes_id')->references('clothes_id')->on('clothes');
             $table->foreign('user_id')->references('user_id')->on('user');
 
             $table->comment('ユーザ衣料品');

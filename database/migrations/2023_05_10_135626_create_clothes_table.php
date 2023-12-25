@@ -13,13 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('clothing', function (Blueprint $table) {
-            $table->id('clothing_id')->comment('衣類ID');
+        Schema::create('clothes', function (Blueprint $table) {
+            $table->id('clothes_id')->comment('衣類ID');
             $table->unsignedBigInteger('brand_id')->comment('ブランドID');
             $table->string('name', 255)->unique()->comment('名前');
             $table->integer('purchase_place')->comment('購入場所');
             $table->integer('type')->comment('服のタイプ');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('brand_id')->references('brand_id')->on('brand');
 
