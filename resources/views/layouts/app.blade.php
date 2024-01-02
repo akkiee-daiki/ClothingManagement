@@ -13,16 +13,16 @@
 <div id="container">
     <header>
 {{--        <h1 id="logo"><a href="index.html"><img src="{{ asset('/images/logo.png') }}" alt="衣類管理"></a></h1>--}}
-        <h1 id="logo"><a href="index.html">衣類管理</a></h1>
+        <h1 id="logo"><a href="">衣類管理</a></h1>
         <aside id="mainimg"><img src="{{ asset('/images/mainimg.jpg') }}" alt="アイキャッチ"></aside>
     </header>
 
     <nav id="menubar">
         <ul>
             <li><a href="{{ route('brand.index') }}">brand</a></li>
-            <li><a href="about.html">Clothes</a></li>
-            <li><a href="gallery.html">span</a></li>
-            <li><a href="link.html">history</a></li>
+            <li><a href="{{ route('clothes.index') }}">Clothes</a></li>
+            <li><a href="">span</a></li>
+            <li><a href="">history</a></li>
         </ul>
     </nav>
 

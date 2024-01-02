@@ -3,16 +3,18 @@
 @section('title', 'ブランド確認')
 
 @section('main')
-    <section id="new">
+    <section class="form-section">
         <h2>{{(session()->has($SESS_KEY . '.new')) ? '新規作成' : '編集'}}確認</h2>
         <dl>
             <dt>ブランド名</dt>
             <dd>{{ $input['name'] }}</dd>
+            <dt>日本語名</dt>
+            <dd>{{ $input['Japanese_name'] }}</dd>
             <dt></dt>
             <dd>
-                <button type="button" id="js-backBtn">戻る</button>
                 <form action="" method="post" id="js-storeForm">
                     @csrf
+                    <button type="button" id="js-backBtn">戻る</button>
                     <button type="button" id="js-storeBtn">{{ (session()->has($SESS_KEY . '.new')) ? '登録' : '更新' }}</button>
                 </form>
             </dd>
