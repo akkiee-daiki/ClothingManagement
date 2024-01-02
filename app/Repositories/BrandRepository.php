@@ -17,8 +17,9 @@ class BrandRepository
     public function getList($input) {
         return DB::table('brand')
             ->select([
-           'brand_id',
-           'name'
+                'brand_id',
+                'name',
+                'Japanese_name'
             ])
             ->get();
     }
@@ -29,7 +30,7 @@ class BrandRepository
      * @param string $brand_id
      * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Query\Builder|object|null
      */
-    public function getRecord($brand_id) {
+    public function getRecord(string $brand_id) {
         return DB::table('brand')
             ->where('brand_id', $brand_id)
             ->first();
@@ -49,9 +50,10 @@ class BrandRepository
             $now = CarbonImmutable::now();
 
             DB::table('brand')->insert([
-                'name' =>  $input['name'],
-                'created_at' => $now,
-                'updated_at' => $now
+                'name'          => $input['name'],
+                'Japanese_name' => $input['Japanese_name'],
+                'created_at'    => $now,
+                'updated_at'    => $now
             ]);
 
             DB::commit();
@@ -88,5 +90,6 @@ class BrandRepository
             return false;
         }
     }
+
 
 }
