@@ -5,7 +5,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ClothesController;
 
 Route::get('/', function () {
-    return view('index');
+    return view('index')->name('index');
 });
 
 Route::group(['prefix' => '/brand', 'as' => 'brand.'], function() {
@@ -17,6 +17,7 @@ Route::group(['prefix' => '/brand', 'as' => 'brand.'], function() {
     Route::get('/edit/{brand_id}', [BrandController::class, 'edit'])->name('edit');
     Route::match(['get', 'post'], '/edit_confirm/{brand_id}', [BrandController::class, 'edit_confirm'])->name('edit_confirm');
     Route::post('/update/{brand_id}', [BrandController::class, 'update'])->name('update');
+    Route::post('/destroy/', [BrandController::class, 'destroy'])->name('destroy');
 });
 
 Route::group(['prefix' => '/clothes', 'as' => 'clothes.'], function() {
