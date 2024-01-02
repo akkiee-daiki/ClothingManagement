@@ -26,7 +26,7 @@ class BrandService
      * @param string $brand_id
      * @return mixed
      */
-    public function getRecord($brand_id) {
+    public function getRecord(string $brand_id) {
         return $this->brandRepository->getRecord($brand_id);
     }
 
