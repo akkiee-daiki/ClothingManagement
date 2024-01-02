@@ -57,11 +57,15 @@ class BrandController extends BaseController
      * 新規作成確認
      *
      * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
     public function create_confirm(Request $request)
     {
-        $input = $request->only(['name']);
+        $input = $request->only([
+            'name',
+            'Japanese_name'
+        ]);
+
         $input['new'] = 'new';
 
         $brandtReq = new BrandRequest();
@@ -98,7 +102,7 @@ class BrandController extends BaseController
             abort(500);
         }
 
-        session()->flash('message', '登録が完了しました。');
+        session()->flash('complete_msg', '登録が完了しました。');
         session()->forget($this->SESS_KEY . '.input');
         session()->forget($this->SESS_KEY . '.new');
 
@@ -111,7 +115,7 @@ class BrandController extends BaseController
      * @param string $brand_id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit($brand_id)
+    public function edit(string $brand_id)
     {
         $record = $this->brandService->getRecord($brand_id);
         $input = [
@@ -127,15 +131,19 @@ class BrandController extends BaseController
     }
 
     /**
-     * 編集確認
      *
+     * 編集確認
      * @param string $brand_id
      * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
     public function edit_confirm(string $brand_id, Request $request)
     {
-        $input = $request->only(['name']);
+        $input = $request->only([
+            'name',
+            'Japanese_name'
+        ]);
+
         $input['brand_id'] = $brand_id;
 
         $brandtReq = new BrandRequest();
@@ -174,9 +182,22 @@ class BrandController extends BaseController
             abort(500);
         }
 
-        session()->flash('message', '更新が完了しました。');
+        session()->flash('complete_msg', '更新が完了しました。');
 
         return redirect()->route('brand.index');
+    }
+
+    public function destroy(Request $request) {
+        $input = $request->only([
+            'brand_id'
+        ]);
+dd($input);
+        // DB削除
+        if (!$this->brandService->insertRow($input)) {
+            abort(500);
+        }
+
+
     }
 
 }
