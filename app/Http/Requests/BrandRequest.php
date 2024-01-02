@@ -14,6 +14,10 @@ class BrandRequest extends FormRequest
                 'required',
                 'max:255',
                 (isset($input['new']) ? Rule::unique('brand') : Rule::unique('brand')->ignore($input['brand_id'], 'brand_id'))
+            ],
+            'Japanese_name' => [
+                'max:255',
+                'nullable'
             ]
         ];
     }
@@ -22,6 +26,7 @@ class BrandRequest extends FormRequest
     {
         return [
             'name' => '名前',
+            'Japanese_name' => '日本語名',
         ];
     }
     public function messages()
