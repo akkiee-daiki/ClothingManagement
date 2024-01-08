@@ -51,4 +51,14 @@ class BrandService
         return $this->brandRepository->updateRow($brand_id, $input);
     }
 
+    /**
+     * レコード削除
+     *
+     * @param array $input
+     * @return bool
+     */
+    public function destroyRow(array $input) {
+        return $this->brandRepository->destroyRow($input);
+    }
+
 }

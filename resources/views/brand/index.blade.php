@@ -30,8 +30,9 @@
 
     </table>
 
-    <form action="{{ route('brand.destroy') }}" class="js-destroyForm">
-        <input type="hidden" name="brand_id" value="">
+    <form method="post" action="{{ route('brand.destroy') }}" id="js-destroyForm">
+        @csrf
+        <input id="js-destroyInput" type="hidden" name="brand_id" value="">
     </form>
 
     <div class="btn_container">
@@ -43,12 +44,15 @@
 @section('js')
 <script>
     let destroyForm = document.getElementById('js-destroyForm');
-    let destroyBtn = document.getElementsByClassName('js-destroyBtn');
+    let destroyBtns = document.getElementsByClassName('js-destroyBtn');
+    let destroyInput = document.getElementById('js-destroyInput');
 
-    // get brand_id of clicked delete button
-    $('.js-destroyBtn').addEventListener('click', function () {
-        console.log(this.dataset.id);
-    });
+    for (let i = 0; i < destroyBtns.length; i++) {
+        destroyBtns[i].addEventListener('click', function () {
+            destroyInput.value = this.dataset.id;
+            destroyForm.submit();
+        });
+    }
 
 </script>
 @endsection

@@ -91,5 +91,34 @@ class BrandRepository
         }
     }
 
+    /**
+     * 削除
+     *
+     * @param array $input
+     * @return bool
+     */
+    public function destroyRow(array $input) {
+        $brand_id = $input['brand_id'];
+        unset($input['brand_id']);
+
+        $input['deleted_at'] = CarbonImmutable::now();
+
+        DB::beginTransaction();
+        try {
+
+            DB::table('brand')
+                ->where('brand_id', $brand_id)
+                ->update($input);
+            DB::commit();
+            return true;
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            return false;
+
+        }
+    }
+
 
 }

@@ -187,17 +187,24 @@ class BrandController extends BaseController
         return redirect()->route('brand.index');
     }
 
+    /**
+     * 削除処理
+     *
+     * @param Request $request
+     * @return void
+     */
     public function destroy(Request $request) {
         $input = $request->only([
             'brand_id'
         ]);
-dd($input);
+
         // DB削除
-        if (!$this->brandService->insertRow($input)) {
+        if (!$this->brandService->destroyRow($input)) {
             abort(500);
         }
 
-
+        session()->flash('complete_msg', 'ブランドID: ' . $input['brand_id'] .  'の削除が完了しました。');
+        return redirect()->route('brand.index');
     }
 
 }
