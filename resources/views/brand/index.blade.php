@@ -49,8 +49,13 @@
 
     for (let i = 0; i < destroyBtns.length; i++) {
         destroyBtns[i].addEventListener('click', function () {
-            destroyInput.value = this.dataset.id;
-            destroyForm.submit();
+            if (confirm('削除してよろしいですか')) {
+                destroyInput.value = this.dataset.id;
+                destroyForm.submit();
+            } else {
+                alert('削除がキャンセルされました');
+            }
+
         });
     }
 
