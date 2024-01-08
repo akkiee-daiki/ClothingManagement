@@ -21,6 +21,7 @@ class BrandRepository
                 'name',
                 'Japanese_name'
             ])
+            ->whereNull('deleted_at')
             ->get();
     }
 
@@ -33,6 +34,7 @@ class BrandRepository
     public function getRecord(string $brand_id) {
         return DB::table('brand')
             ->where('brand_id', $brand_id)
+            ->whereNull('deleted_at')
             ->first();
 }
 
@@ -80,6 +82,7 @@ class BrandRepository
 
             DB::table('brand')
                 ->where('brand_id', $brand_id)
+                ->whereNull('deleted_at')
                 ->update($input);
 
             DB::commit();
@@ -108,6 +111,7 @@ class BrandRepository
 
             DB::table('brand')
                 ->where('brand_id', $brand_id)
+                ->whereNull('deleted_at')
                 ->update($input);
             DB::commit();
             return true;
